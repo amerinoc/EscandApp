@@ -47,7 +47,6 @@ public class Recipe {
         this.recipePrepTimeMin = recipePrepTimeMin;
         this.recipeCalories = recipeCalories;
         this.recipePrice = recipePrice;
-        //this.ingredientRecipeFK = ingredientRecipeFK;
     }
 
     //getters / setters

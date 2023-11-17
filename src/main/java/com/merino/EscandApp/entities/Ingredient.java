@@ -6,6 +6,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -15,8 +16,8 @@ public class Ingredient {
     @Id
     public String ingredientName;
 
-    @Column(nullable = false, name = "ingredientType")
-    public String ingredientType;
+    @OneToMany(mappedBy = "ingredient")
+    private Set<IngredientType> ingredientTypes;
 
     @Column(nullable = false, name = "ingredientCalories")
     public int ingredientCalories;
@@ -26,9 +27,9 @@ public class Ingredient {
 
     //init
     public Ingredient() {}
-    public Ingredient(String ingredientName, String ingredientType, int ingredientCalories, Set<Recipe> recipeIngredientFK) {
+    public Ingredient(String ingredientName, Set<IngredientType> ingredientTypes, int ingredientCalories, Set<Recipe> recipeIngredientFK) {
         this.ingredientName = ingredientName;
-        this.ingredientType = ingredientType;
+        this.ingredientTypes = ingredientTypes;
         this.ingredientCalories = ingredientCalories;
         this.recipeIngredientFK = recipeIngredientFK;
     }
@@ -42,12 +43,12 @@ public class Ingredient {
         this.ingredientName = ingredientName;
     }
 
-    public String getIngredientType() {
-        return ingredientType;    
+    public Set<IngredientType> getIngredientType() {
+        return ingredientTypes;    
     }
 
-    public void setIngredientType(String ingredientType) {
-        this.ingredientType = ingredientType;
+    public void setIngredientType(Set<IngredientType> ingredientTypes) {
+        this.ingredientTypes = ingredientTypes;
     }
 
     public int getIngredientCalories() {

@@ -1,13 +1,16 @@
 package com.merino.EscandApp.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.merino.EscandApp.entities.Ingredient;
+import com.merino.EscandApp.entities.IngredientType;
+import com.merino.EscandApp.repositories.IngredientTypeRepository;
 import com.merino.EscandApp.repositories.IngredientRepository;
 import com.merino.EscandApp.repositories.RecipeIngredientRepository;
 import com.merino.EscandApp.repositories.RecipeRepository;
@@ -24,6 +27,9 @@ public class AppController {
     @Autowired
     private RecipeIngredientRepository recipeIngredientRepo;
     
+    @Autowired
+    private IngredientTypeRepository ingredientTypeRepo;
+    
     @GetMapping("/")
     public String viewHomePage() {
         return "index";
@@ -31,9 +37,10 @@ public class AppController {
 
     // Ingredient
     @GetMapping("/register_ingredient")
-    public String showRegisterIngredient(Model model, @Param("keyword") String keyword) {
+    public String showRegisterIngredient(Model model) {
         model.addAttribute("ingredient", new Ingredient());
-        model.addAttribute("keyword", keyword);
+        List<IngredientType> ingredientsTypeList = ingredientTypeRepo.searchByType();
+        model.addAttribute("ingredientTypesOption", ingredientsTypeList);
         return "register_ingredient";
     }
 
